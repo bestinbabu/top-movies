@@ -1,0 +1,171 @@
+#Setup
+
+1.require the dot emv file and config the path
+2.require the express async Error
+3.Import the express module
+4.start the express app
+
+#Database Connection
+
+1.make db folder which contion connection file
+2.make a connect fucntion having url param which returns the mongo.connect(url)
+3.export the fucntion
+4.import the function in the main app
+5.define port which use process.env.PORT or random port
+6.create a async start function and await for the connect fucntion
+7.start listening to server
+
+#Essential packages
+
+import it and require the following
+
+1.trust proxy
+2.rate limiter
+3.helmet
+4.xssClean
+5.cors
+6.express.json
+7.morgon
+8.cookie-parser
+
+#Handling Errors
+
+ #Not found
+1.inside middleware folder,create a not-found file
+2.create function not found which resond with not found
+3.export the notFound function
+4.import to main app
+5.use it after every Routers
+
+ #unexpected error handle
+1.inside middleware folder, create a error-handle file
+2.create function errorhandleMiddleware which has err,req,res
+3.create a customError object having message and statusCode
+4.in message : err.message or "something went wrong"
+5.in statusCode: err.statusCode or internal server err
+6.console the err
+7.return with res having customError.statusCode and msg
+5.import to main app,use it after not found
+
+ #Custom Errors
+1.create customError folder
+2.create customError file
+3.create class customError extends error
+4.make constructor with message para
+5.inside super(message) and export the class
+6.create the error file you need
+7.import the statusCode and customError class
+8.create the desired error class extend customError
+9.constructor with message para
+10.inside, super(message) and this.statusCode = real status code
+11. export the class
+12.make index file which has all the errors and export them
+
+
+#Routing
+
+1.inside controller folder create required functions
+2.export the functions
+3.inside router folder import the express
+4. start express.Router()
+5.import the controller functions
+5.1 router.method_name(url,control function)
+5.2 router.route("url").method_name(control fucntion)
+6. export router
+7.import the routers in main app
+8.use them
+
+#Database
+
+1.In models folder create model-name file
+2.import mongoose
+3.create new mongoose.schema with the required fields
+4.initialise the model with 'name',schema
+5.export the initialised model
+
+#Authentication
+
+ #Auth Router
+- [] create controllers folder
+- [] add authController file
+- [] export (register,login,logout) functions
+- [] create routes folder
+- [] setup authRoutes file
+- [] import all controllers
+- [] setup three routes
+- [] post('/register') post('/login') get('/logout')
+- [] import authRoutes as authRouter in the app.js
+- [] setup app.use('/api/v1/auth', authRouter)
+
+ #hashing pass
+[] in the schema model make UserSchema.pre('save') - hook
+[] bcrypt.genSalt - number of rounds
+[] this.password = await bcrypt.hast(this.pass,salt) 
+ #check pass
+[] make a method in the model which takes the userpass as para
+[] return bycrypt.compare(userpass,this.password)
+
+ #Send JWT token
+[] in utils folder make a jwt file
+[] create a fucntion createJWT which recives the customToken as para
+[] add variables in .env JWT_SECRET=jwtSecret and JWT_LIFETIME=1d
+[] create jwt - jwt.sign(payload,secret,options)
+[] make other fucntion checkJWT which recives the token
+[] verify jwt - jwt.verify(token,secret)
+
+  #send cookies
+[] setup function attachCookiesToResponse in jwt util
+[] it should take the customToken and res
+[] create token - createJWT
+[] req.cookie()
+[] send some resoponse
+
+ #logout
+[] set token cookie equal to some string value
+[] set expires:new Date(Date.now())
+
+ #Authenticate user
+[] make a file in middleware
+[] create function which has req,res,next
+[] make try catch block
+[] store the cookie to variables and invoke the validcookie function
+[] if not valid throw error
+[] req.user = {userID:validToken.userID,username:validToken.username,userRole:validToken.userRole}
+[] next()
+
+ #Authorize user
+[] create function which has take the roles as para in authenticate file
+[] return a fucntion which has para req,res,next
+[] check if req.user.role include role from para
+[] if so next else error
+
+ #update user password
+- [] add authenticateUser middleware in the route
+- [] check for oldPassword and newPassword in the body
+- [] if one missing 400
+- [] look for user with req.user.userId
+- [] check if oldPassword matches with user.comparePassword
+- [] if no match 401
+- [] if everything good set user.password equal to newPassword
+- [] await user.save()
+
+ # createTokenUser in Utils
+
+- [] create a file in utils (createTokenUser)
+- [] setup a function that accepts user object and returns userToken object
+- [] export as default
+
+
+
+
+
+
+
+
+
+#Database ({})
+
+[] findOne
+[] create
+[] countDocuments
+[] 
