@@ -19,15 +19,6 @@ const getUserMovieList = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: "sucess" ,data:movieList});
 };
 
-const getOtherUserMovieList = async (req, res) => {
-
-  const {id:userID} = req.params
-  if (!userID) {
-    throw new BadRequest("no user with that id")
-  }
-  const movieList = await Movie.findOne({user:req.user.userID}).select('-_id -user -__v');
-  res.status(StatusCodes.OK).json({ msg: "sucess" ,data:movieList});
-};
 
 const findMovie = async (req, res) => {
 
@@ -157,5 +148,4 @@ module.exports = {
   updateMovie,
   deleteMovie,
   getUserMovieList,
-  getOtherUserMovieList
 };
